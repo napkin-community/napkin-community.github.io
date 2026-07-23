@@ -9,7 +9,7 @@ cd www
 
 # Install dependencies
 pnpm i
-# Run the development server, see http://localhost:3000
+# Run the development server, see http://localhost:4321
 pnpm dev
 ```
 
