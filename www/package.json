@@ -15,7 +15,7 @@
     "cheerio": "^1.2.0",
     "es-toolkit": "^1.48.1"
   },
-  "packageManager": "pnpm@11.8.0",
+  "packageManager": "pnpm@11.17.0",
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@types/node": "^25.9.4",
