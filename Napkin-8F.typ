@@ -84,7 +84,7 @@
   Hence, $M$ is sequentially compact $square$
 
   == References
-  #include "8.1.2.typ"
-  #include "8.3.5.typ"
-  #include "8.4.1.typ"
+  #include "Napkin-8.1.2.typ"
+  #include "Napkin-8.3.5.typ"
+  #include "Napkin-8.4.1.typ"
 ]

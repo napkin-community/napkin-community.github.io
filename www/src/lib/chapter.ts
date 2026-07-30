@@ -12,7 +12,9 @@ export async function getChapters() {
     [
       ...exercises.map(({ filePath }) => {
         const chapterId = Number(
-          /([0-9]+)(?:\.(?:[0-9]+))+\.typ/.exec(path.basename(filePath!))![1],
+          /^Napkin-([0-9]+)(?:\.(?:[0-9]+))+\.typ$/.exec(
+            path.basename(filePath!),
+          )![1],
         );
         return {
           id: chapterId,
@@ -21,7 +23,7 @@ export async function getChapters() {
       }),
       ...aFewHarderProblems.map(({ filePath }) => {
         const chapterId = Number(
-          /([0-9]+)[a-zA-Z]+\.typ/.exec(path.basename(filePath!))![1],
+          /^Napkin-([0-9]+)[A-Z]+\.typ$/.exec(path.basename(filePath!))![1],
         );
         return {
           id: chapterId,
@@ -100,7 +102,7 @@ export async function getChapterContents(id: number | string) {
     )
   )
     .filter(({ filePath, metadata }) => {
-      const chapterId = /([0-9]+)(?:\.(?:[0-9]+))+\.typ/.exec(
+      const chapterId = /^Napkin-([0-9]+)(?:\.(?:[0-9]+))+\.typ$/.exec(
         path.basename(filePath!),
       )![1];
       return id.toString() === chapterId && !metadata.skipFromBuild;
@@ -108,7 +110,7 @@ export async function getChapterContents(id: number | string) {
     .toSorted(({ filePath: a }, { filePath: b }) => naturalCompare(a!, b!));
   const problemsOrdered = aFewHarderProblems
     .filter(({ filePath }) => {
-      const chapterId = /([0-9]+)[a-zA-Z]+\.typ/.exec(
+      const chapterId = /^Napkin-([0-9]+)[A-Z]+\.typ$/.exec(
         path.basename(filePath!),
       )![1];
 
@@ -119,13 +121,21 @@ export async function getChapterContents(id: number | string) {
   return [
     ...exercisesOrdered.map((content) => ({
       ...content,
-      id: path.parse(content.filePath!).name.replaceAll(/\./g, '-'),
-      display: path.parse(content.filePath!).name,
+      id: path
+        .parse(content.filePath!)
+        .name.replace(/^Napkin-/, '')
+        .replaceAll(/\./g, '-'),
+      display: path.parse(content.filePath!).name.replace(/^Napkin-/, ''),
     })),
     ...problemsOrdered.map((content) => ({
       ...content,
-      id: `problem-${path.parse(content.filePath!).name.toLowerCase()}`,
-      display: `Problem ${path.parse(content.filePath!).name}`,
+      id: `problem-${path
+        .parse(content.filePath!)
+        .name.replace(/^Napkin-/, '')
+        .toLowerCase()}`,
+      display: `Problem ${path
+        .parse(content.filePath!)
+        .name.replace(/^Napkin-/, '')}`,
     })),
   ];
 }

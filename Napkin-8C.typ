@@ -29,7 +29,7 @@
 
   == References
 
-  #include "8.3.1.typ"
-  #include "8.3.2.typ"
-  #include "7.3.1.typ"
+  #include "Napkin-8.3.1.typ"
+  #include "Napkin-8.3.2.typ"
+  #include "Napkin-7.3.1.typ"
 ]

@@ -4,14 +4,14 @@ import { defineCollection } from 'astro:content';
 const aFewHarderProblems = defineCollection({
   loader: glob({
     base: '../',
-    pattern: '+([0-9])+([A-Z]).typ',
+    pattern: 'Napkin-+([0-9])+([A-Z]).typ',
   }),
 });
 
 const exercises = defineCollection({
   loader: glob({
     base: '../',
-    pattern: '+([0-9]).+([.0-9]).typ',
+    pattern: 'Napkin-+([0-9]).+([.0-9]).typ',
   }),
 });
 
