@@ -1,13 +1,16 @@
 name: check
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   check:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     env:
       TYPSTYLE_VERSION: 0.14.4
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -18,7 +21,7 @@ jobs:
 
       # setup typstyle
       - id: cache-typstyle
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: typstyle
           key: ${{ runner.os }}-typstyle-${{ env.TYPSTYLE_VERSION }}
@@ -31,7 +34,7 @@ jobs:
 
       # setup fonts
       - id: cache-fonts
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: fonts
           key: ${{ runner.os }}-fonts-1

@@ -4,6 +4,12 @@ on:
     workflows: ["preview"]
     types: [completed]
 
+permissions:
+  actions: read
+  contents: write
+  issues: write
+  pull-requests: write
+
 jobs:
   publish:
     if: >-
@@ -11,15 +17,10 @@ jobs:
         github.event.workflow_run.event == 'pull_request' &&
         github.event.workflow_run.conclusion == 'success'
       }}
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: write
-      issues: write
-      pull-requests: write
+    runs-on: ubuntu-26.04
     steps:
       - id: find-artifact
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const owner = context.repo.owner;
@@ -48,7 +49,7 @@ jobs:
           github-token: ${{ github.token }}
 
       - if: steps.find-artifact.outputs.found == 'true'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             const fs = require('fs');

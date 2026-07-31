@@ -4,14 +4,15 @@ on:
     paths:
       - "**.typ"
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   preview:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
+    runs-on: ubuntu-26.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -38,7 +39,7 @@ jobs:
       # Setup fonts
       - if: steps.find-typ.outputs.skip == 'false'
         id: cache-fonts
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: fonts
           key: ${{ runner.os }}-fonts-1
