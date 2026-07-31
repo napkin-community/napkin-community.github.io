@@ -8,7 +8,7 @@ jobs:
   check:
     runs-on: ubuntu-26.04
     env:
-      TYPSTYLE_VERSION: 0.14.4
+      TYPSTYLE_VERSION: 0.15.0
     steps:
       - uses: actions/checkout@v7
         with:
@@ -17,7 +17,7 @@ jobs:
       # setup typst
       - uses: typst-community/setup-typst@v5
         with:
-          typst-version: ^0.14.0
+          typst-version: ^0.15.0
 
       # setup typstyle
       - id: cache-typstyle

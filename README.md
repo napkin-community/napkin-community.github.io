@@ -4,7 +4,7 @@ This repository serves solutions for the problems from the book, [An Infinitely
 Large Napkin] by Evan Chen and contributors.
 
 ```bash
-# Requires typst 0.14
+# Requires typst 0.15
 
 cd www
 pnpm i
