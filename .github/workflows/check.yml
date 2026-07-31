@@ -5,7 +5,17 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  lean:
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: lean
+
+  typst:
     runs-on: ubuntu-26.04
     env:
       TYPSTYLE_VERSION: 0.15.0
