@@ -1,5 +1,4 @@
 import { getCollection } from 'astro:content';
-import { uniq } from 'es-toolkit';
 import path from 'node:path';
 import { readMetadata } from './typst';
 import { naturalCompare } from './numberCompare';
@@ -36,7 +35,7 @@ export async function getChapters(book: Book) {
           chapterOf(exercisePattern(book), filePath!),
         );
 
-  return uniq(chapters).toSorted((a, b) => a - b);
+  return [...new Set(chapters)].toSorted((a, b) => a - b);
 }
 
 export async function getChapterContents(book: Book, chapter: number) {
