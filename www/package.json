@@ -1,7 +1,5 @@
 {
-  "name": "napkin-solutions",
   "type": "module",
-  "version": "0.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
@@ -14,10 +12,17 @@
     "astro": "^7.1.4",
     "cheerio": "^1.2.0"
   },
-  "packageManager": "pnpm@11.18.0",
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^25.9.5",
     "typescript": "^6.0.3"
-  }
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^26.5.0",
+      "onFail": "download"
+    }
+  },
+  "packageManager": "pnpm@11.18.0"
 }
