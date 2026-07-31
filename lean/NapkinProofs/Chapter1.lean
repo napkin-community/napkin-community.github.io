@@ -5,7 +5,7 @@ import Mathlib.GroupTheory.SpecificGroups.Dihedral
 
 import NapkinProofs.Obviouslib
 
-/-
+/--
 # Example 1.1.1 (Additive integers)
 
 The pair (ℤ, +) is a group: ℤ = {. . . , −2, −1, 0, 1, 2, . . . } is the set and
@@ -16,7 +16,7 @@ We call this group ℤ.
 -/
 instance : AddCommGroup ℤ := by infer_instance
 
-/-
+/--
 # Example 1.1.2 (Nonzero rationals)
 Let ℚ^× be the set of *nonzero rational numbers*. The pair (ℚ^×, ·) is a group: the set
 is ℚ^× and the associative operation is *multiplication*.
@@ -36,7 +36,7 @@ example : ℚˣ ≃* { q : ℚ // q ≠ 0 } where
   right_inv q := by aesop
   map_mul' x y := by aesop
 
-/-
+/--
 # Example 1.1.6 (Non-Examples of groups)
 • The pair (ℚ, ·) is NOT a group. (Here ℚ is rational numbers.) While there is
   an identity element, the element 0 ∈ ℚ does not have an inverse.
@@ -46,7 +46,7 @@ example : ¬(∀ {a : ℚ}, a * a⁻¹ = 1) := by
   use 0
   linarith
 
-/-
+/--
 • The pair (Z, ·) is also NOT a group. (Why?)
 -/
 example [Group ℤ] : ¬(∀ {a : ℤ}, a * a⁻¹ = 1) := by
@@ -54,7 +54,7 @@ example [Group ℤ] : ¬(∀ {a : ℤ}, a * a⁻¹ = 1) := by
   use 0
   linarith
 
-/-
+/--
 • Let Mat_2×2(ℝ) be the set of 2 × 2 real matrices. Then (Mat_2×2(ℝ), ·)
   (where · is matrix multiplication) is NOT a group.
 -/
@@ -63,7 +63,7 @@ example : ¬(∀ {a : (Matrix (Fin 2) (Fin 2) ℝ)}, a * a⁻¹ = 1) := by
   specialize h (a := 0)
   aesop
 
-/-
+/--
 # Example 1.1.7 (Complex unit circle)
 Let S^1 denote the set of complex numbers z with absolute value one; that is
 
@@ -84,7 +84,7 @@ noncomputable example : Circle ≃* { z : ℂ // ‖z‖ = 1 } where
   right_inv z := by aesop
   map_mul' x y := by aesop
 
-/-
+/--
 # Example 1.1.8 (Addition mod n)
 Here is an example from number theory: Let n > 1 be an integer, and consider the
 residues (remainders) modulo n. These form a group under addition. We call this
@@ -93,7 +93,7 @@ identity is 0.
 -/
 instance : AddCommGroup (ZMod n) := by infer_instance
 
-/-
+/--
 # Example 1.1.9 (Multiplication mod p)
 Let p be a prime. Consider the *nonzero residues modulo* p, which we denote by
 (Z/pZ)^×. Then ((Z/pZ)^×, ×) is a group.
@@ -103,7 +103,7 @@ example [Fact p.Prime] : Fintype.card (ZMod p)ˣ = p - 1 := by
   rw [Fintype.card_congr ZMod.unitsEquivCoprime, Fintype.card_congr zmod_coprime_equiv_fin_nz]
   aesop
 
-/-
+/--
 # Question 1.1.10. Why do we need the fact that p is prime?
 -/
 example : ¬(∀ {n : ℕ} [NeZero n], Fintype.card (ZMod n)ˣ = n - 1) := by
@@ -111,7 +111,7 @@ example : ¬(∀ {n : ℕ} [NeZero n], Fintype.card (ZMod n)ˣ = n - 1) := by
   specialize h (n := 4)
   contradiction
 
-/-
+/--
 # Example 1.1.11 (General linear group)
 Let n be a positive integer. Then GL_n(ℝ) is defined as the set of n×n real matrices
 which have nonzero determinant. It turns out that with this condition, every matrix
@@ -120,7 +120,7 @@ group.
 -/
 instance [NeZero n] : Group (Matrix.GeneralLinearGroup (Fin n) ℝ) := by infer_instance
 
-/-
+/--
 # Example 1.1.12 (Special linear group)
 Following the example above, let SL_n(ℝ) denote the set of n × n matrices whose
 determinant is actually 1. Again, for linear algebra reasons it turns out that
@@ -128,7 +128,7 @@ determinant is actually 1. Again, for linear algebra reasons it turns out that
 -/
 instance [NeZero n] : Group (Matrix.SpecialLinearGroup (Fin n) ℝ) := by infer_instance
 
-/-
+/--
 # Example 1.1.13 (Symmetric groups)
 Let S_n be the set of permutations of {1, ... , n}. By viewing these permutations as
 functions from {1, ... , n} to itself, we can consider *compositions* of permutations.
@@ -141,7 +141,7 @@ The group S_n is called the **symmetric group** on n elements.
 -/
 instance : Group (Equiv.Perm (Fin n)) := by infer_instance
 
-/-
+/--
 # Example 1.1.14 (Dihedral group)
 The **dihedral group of order 2n**, denoted D_2n, is the group of symmetries of a
 regular n-gon A_1, A_2, ... , A_n, which includes rotations and reflections. It consists of
@@ -156,7 +156,7 @@ In particular, r^n = s^2 = 1. You can also see that r^k s = sr^−k.
 -/
 instance : Group (DihedralGroup n) := by infer_instance
 
-/-
+/--
 # Example 1.1.15 (Products of groups)
 Let (G, ⋆) and (H, *) be groups. We can define a product group (G × H, ·), as
 follows. The elements of the group will be ordered pairs (g, h) ∈ G × H. Then
@@ -167,7 +167,7 @@ is the group operation.
 -/
 instance [Group A] [Group B] : Group (A × B) := by infer_instance
 
-/-
+/--
 # Question 1.1.16. What are the identity and inverses of the product group?
 -/
 example
@@ -175,14 +175,14 @@ example
   [Group A] [Group B] [Group (A × B)]
 : (1 : (A × B)) = (1, 1) ∧ (a, b)⁻¹ = (a⁻¹, b⁻¹) := by aesop
 
-/-
+/--
 # Example 1.1.17 (Trivial group)
 The trivial group, often denoted 0 or 1, is the group with only an identity element.
 I will use the notation {1}.
 -/
 instance : CommGroup PUnit := by infer_instance
 
-/-
+/--
 # Exercise 1.1.18. Which of these are groups?
 
 (a) Rational numbers with odd denominators (in simplest form), where the
@@ -205,7 +205,7 @@ instance : AddCommGroup RatOddDenom where
   neg_add_cancel a := by apply Subtype.ext; exact Rat.neg_add_cancel a.val
   add_comm a b := by apply Subtype.ext; exact Rat.add_comm a.val b.val
 
-/-
+/--
 (b) The set of rational numbers with denominator at most 2, where the operation is addition.
 -/
 def RatDenomLE2 := { q : ℚ // q.den ≤ 2 }
@@ -225,7 +225,7 @@ instance : AddCommGroup RatDenomLE2 where
   neg_add_cancel a := by apply Subtype.ext; exact Rat.neg_add_cancel a.val
   add_comm a b := by apply Subtype.ext; exact Rat.add_comm a.val b.val
 
-/-
+/--
 (c) The set of rational numbers with denominator at most 2, where the operation is multiplication.
 -/
 example [Group RatDenomLE2] : ¬(∀ {a b : RatDenomLE2}, (a * b).val = a.val * b.val) := by
@@ -239,7 +239,7 @@ example [Group RatDenomLE2] : ¬(∀ {a b : RatDenomLE2}, (a * b).val = a.val * 
   have : (a * b).val.den = (a.val * b.val).den := by rw [h]
   linarith
 
-/-
+/--
 (d) The set of nonnegative integers, where the operation is addition.
 -/
 example [AddGroup ℕ] : ¬(∀ {a : ℕ}, a + (-a) = 0) := by
@@ -247,13 +247,13 @@ example [AddGroup ℕ] : ¬(∀ {a : ℕ}, a + (-a) = 0) := by
   specialize h (a := 1)
   linarith
 
-/-
+/--
 # Proposition 1.2.4 (Inverse of products)
 Let G be a group, and a, b ∈ G. Then (ab)^−1 = b^−1a^−1
 -/
 example [Group G] (a b : G) : (a * b)⁻¹ = b⁻¹ * a⁻¹ := by aesop
 
-/-
+/--
 # Lemma 1.2.5 (Left multiplication is a bijection)
 Let G be a group, and pick a g ∈ G. Then the map G → G given by λx ↦ gx is a
 bijection.
@@ -266,7 +266,7 @@ example {G : Type} [Group G] (g : G) : Function.Bijective (λx ↦ g * x) where
   left a b := by aesop
   right y := by use g⁻¹ * y; aesop
 
-/-
+/--
 # Example 1.3.2 (Examples of isomorphisms)
 Let G and H be groups. We have the following isomorphisms.
 (a) ℤ ≅ 10ℤ, as above.
@@ -281,7 +281,7 @@ example : ℤ ≃+ Tenℤ where
   right_inv n10 := by obtain ⟨_, _, _⟩ := n10; aesop
   map_add' x y := by have := mul_add 10 x y; aesop
 
-/-
+/--
 (b) There is an isomorphism
 
     G × H ≅ H × G
@@ -297,7 +297,7 @@ example
   right_inv ba := by simp
   map_mul' x y := by simp
 
-/-
+/--
 (c) The identity map id: G → G is an isomorphism, hence G ∼= G.
 -/
 example {G : Type} [Group G] : G ≃* G where
@@ -307,7 +307,7 @@ example {G : Type} [Group G] : G ≃* G where
   right_inv g := by repeat rw [id]
   map_mul' x y := by repeat rw [id]
 
-/-
+/--
 (d) There is another isomorphism of Z to itself: send every x to −x.
 -/
 example : ℤ ≃+ ℤ where

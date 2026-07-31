@@ -1,6 +1,6 @@
 import Mathlib.LinearAlgebra.Trace
 
-/-
+/--
 # Problem 11B† (Product of traces)
 Let T : V → V and S : W → W be linear maps of finite-dimensional vector spaces V
 and W. Define T ⊗ S : V ⊗ W → V ⊗ W by λv ⊗ w.T(v) ⊗ S(w). Prove that:
