@@ -20,7 +20,16 @@
 
 #import "@preview/citegeist:0.1.0": load-bibliography
 
-#let bib = load-bibliography(read("images.bib"))
+#let bib = load-bibliography(
+  ```bibtex
+  @Image{img:snsd,
+    title        = "Topological Girl's Generation",
+    author       = "Topological Girl's Generation",
+    URL          = "https://topologicalgirlsgeneration.tumblr.com/",
+    note         = "(dead link)",
+  }
+  ```.text,
+)
 
 == Image Attributions
 
