@@ -2,7 +2,7 @@ Short version for non-laywers:
   This project is licensed under AGPL-3.0
 
 Longer version:
-  napkin-community/solutions
+  Napkin Solutions
   Copyright (C) 2025-2026  Jihyeon Kim and napkin-community contributors
 
   This program is free software: you can redistribute it and/or modify
@@ -31,3 +31,7 @@ copyright notices and license terms:
   "Topological Girl's Generation"
   <https://topologicalgirlsgeneration.tumblr.com/> (dead link). All rights
   remain with the original author.
+
+* The file www/src/lib/typst.ts contains code taken from "astro-typst"
+  <https://github.com/OverflowCat/astro-typst>, Copyright (C) OverflowCat,
+  which is licensed under Apache-2.0.
