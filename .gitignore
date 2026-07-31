@@ -1,0 +1,8 @@
+/lean/.lake/
+
+/typst/fonts/
+/typst/**/*.pdf
+
+/www/node_modules/
+/www/dist/
+/www/.astro/
