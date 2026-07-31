@@ -1,21 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getChapterName, getChapters } from '../lib/chapter';
+import { books, getChapters } from '../lib/chapter';
 
-const chapters = await getChapters();
+const bookChapters = await Promise.all(
+  books.map(async (book) => ({ book, chapters: await getChapters(book) })),
+);
 ---
 
 <Layout title="napkin solutions">
   <p>Source code: <a href="https://github.com/napkin-community/solutions">https://github.com/napkin-community/solutions</a></p>
-  <ol>
-    {
-      chapters.map((chapter) => (
-        <li>
-          <a href={`./${chapter.id}/`}>{getChapterName(chapter.id)}</a>
-        </li>
-      ))
-    }
-  </ol>
+  {
+    bookChapters.map(({ book, chapters }) => (
+      <section>
+        <h2 id={book}>{book}</h2>
+        <ol>
+          {chapters.map((chapter) => (
+            <li>
+              <a href={`./${book}/${chapter}/`}>Ch. {chapter}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))
+  }
 </Layout>
 
 <style>

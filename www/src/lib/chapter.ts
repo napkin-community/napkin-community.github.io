@@ -1,91 +1,61 @@
 import { getCollection } from 'astro:content';
-import { uniqBy } from 'es-toolkit';
+import { uniq } from 'es-toolkit';
 import path from 'node:path';
 import { readMetadata } from './typst';
 import { naturalCompare } from './numberCompare';
 
-export async function getChapters() {
-  const exercises = await getCollection('exercises');
-  const aFewHarderProblems = await getCollection('aFewHarderProblems');
+export const books = ['Napkin', 'Le14', 'Hatcher', 'HoTT'] as const;
+export type Book = (typeof books)[number];
 
-  return uniqBy(
-    [
-      ...exercises.map(({ filePath }) => {
-        const chapterId = Number(
-          /^Napkin-([0-9]+)(?:\.(?:[0-9]+))+\.typ$/.exec(
-            path.basename(filePath!),
-          )![1],
-        );
-        return {
-          id: chapterId,
-          order: chapterId,
-        };
-      }),
-      ...aFewHarderProblems.map(({ filePath }) => {
-        const chapterId = Number(
-          /^Napkin-([0-9]+)[A-Z]+\.typ$/.exec(path.basename(filePath!))![1],
-        );
-        return {
-          id: chapterId,
-          order: chapterId,
-        };
-      }),
-      { id: 'Le14', order: 69 },
-      { id: 'Hatcher', order: 72 },
-      { id: 'HoTT', order: 75 },
-    ],
-    (chap) => chap.order,
-  ).toSorted((a, b) => a.order - b.order);
+const collectionOf = {
+  Le14: 'le14',
+  Hatcher: 'hatcher',
+  HoTT: 'hott',
+} as const;
+
+const exercisePattern = (book: Book) =>
+  new RegExp(`^${book}-([0-9]+)(?:\\.[0-9]+)+\\.typ$`);
+const problemPattern = /^Napkin-([0-9]+)[A-Z]+\.typ$/;
+
+function chapterOf(pattern: RegExp, filePath: string) {
+  return Number(pattern.exec(path.basename(filePath))![1]);
 }
 
-export function getChapterName(id: number | string) {
-  if (id === 'Le14') {
-    return 'Le14';
-  } else if (id === 'Hatcher') {
-    return 'Hatcher';
-  } else if (id === 'HoTT') {
-    return 'HoTT';
-  } else {
-    return `Ch. ${id}`;
-  }
+export async function getChapters(book: Book) {
+  const chapters =
+    book === 'Napkin'
+      ? [
+          ...(await getCollection('exercises')).map(({ filePath }) =>
+            chapterOf(exercisePattern('Napkin'), filePath!),
+          ),
+          ...(await getCollection('aFewHarderProblems')).map(({ filePath }) =>
+            chapterOf(problemPattern, filePath!),
+          ),
+        ]
+      : (await getCollection(collectionOf[book])).map(({ filePath }) =>
+          chapterOf(exercisePattern(book), filePath!),
+        );
+
+  return uniq(chapters).toSorted((a, b) => a - b);
 }
 
-export async function getChapterContents(id: number | string) {
-  if (id === 'Le14') {
-    const respect = await getCollection('le14');
-    return respect
+export async function getChapterContents(book: Book, chapter: number) {
+  if (book !== 'Napkin') {
+    const contents = await getCollection(collectionOf[book]);
+    return contents
+      .filter(
+        ({ filePath }) =>
+          chapterOf(exercisePattern(book), filePath!) === chapter,
+      )
       .map((content) => ({
         ...content,
         id: path
           .parse(content.filePath!)
-          .name.replace(/^Le14-/, '')
+          .name.replace(new RegExp(`^${book}-`), '')
           .replaceAll(/\./g, '-'),
-        display: path.parse(content.filePath!).name.replace(/^Le14-/, ''),
-      }))
-      .toSorted(({ id: a }, { id: b }) => naturalCompare(a, b));
-  }
-
-  if (id === 'Hatcher') {
-    const hatcher = await getCollection('hatcher');
-    return hatcher
-      .map((content) => ({
-        ...content,
-        id: path
+        display: path
           .parse(content.filePath!)
-          .name.replace(/^Hatcher-/, '')
-          .replaceAll(/\./g, '-'),
-        display: path.parse(content.filePath!).name.replace(/^Hatcher-/, ''),
-      }))
-      .toSorted(({ id: a }, { id: b }) => naturalCompare(a, b));
-  }
-
-  if (id === 'HoTT') {
-    const hott = await getCollection('hott');
-    return hott
-      .map((content) => ({
-        ...content,
-        id: path.parse(content.filePath!).name.replace(/^HoTT-/, ''),
-        display: path.parse(content.filePath!).name.replace(/^HoTT-/, ''),
+          .name.replace(new RegExp(`^${book}-`), ''),
       }))
       .toSorted(({ id: a }, { id: b }) => naturalCompare(a, b));
   }
@@ -101,21 +71,14 @@ export async function getChapterContents(id: number | string) {
       })),
     )
   )
-    .filter(({ filePath, metadata }) => {
-      const chapterId = /^Napkin-([0-9]+)(?:\.(?:[0-9]+))+\.typ$/.exec(
-        path.basename(filePath!),
-      )![1];
-      return id.toString() === chapterId && !metadata.skipFromBuild;
-    })
+    .filter(
+      ({ filePath, metadata }) =>
+        chapterOf(exercisePattern('Napkin'), filePath!) === chapter &&
+        !metadata.skipFromBuild,
+    )
     .toSorted(({ filePath: a }, { filePath: b }) => naturalCompare(a!, b!));
   const problemsOrdered = aFewHarderProblems
-    .filter(({ filePath }) => {
-      const chapterId = /^Napkin-([0-9]+)[A-Z]+\.typ$/.exec(
-        path.basename(filePath!),
-      )![1];
-
-      return id.toString() === chapterId;
-    })
+    .filter(({ filePath }) => chapterOf(problemPattern, filePath!) === chapter)
     .toSorted(({ filePath: a }, { filePath: b }) => naturalCompare(a!, b!));
 
   return [

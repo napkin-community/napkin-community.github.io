@@ -1,27 +1,29 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import {
-  getChapters,
-  getChapterContents,
-  getChapterName,
-} from '../lib/chapter';
-import Layout from '../layouts/Layout.astro';
-import Typst from '../components/Typst.astro';
+import { books, getChapters, getChapterContents } from '../../lib/chapter';
+import type { Book } from '../../lib/chapter';
+import Layout from '../../layouts/Layout.astro';
+import Typst from '../../components/Typst.astro';
 
-export const getStaticPaths = (async () => {
-  const chapters = await getChapters();
-  return chapters.map((chapter) => ({
-    params: { chapter: chapter.id.toString() },
-  }));
-}) satisfies GetStaticPaths;
+export const getStaticPaths = (async () =>
+  (
+    await Promise.all(
+      books.map(async (book) =>
+        (await getChapters(book)).map((chapter) => ({
+          params: { book, chapter: chapter.toString() },
+        })),
+      ),
+    )
+  ).flat()) satisfies GetStaticPaths;
 
-const { chapter } = Astro.params;
-const content = await getChapterContents(chapter);
+const book = Astro.params.book as Book;
+const chapter = Number(Astro.params.chapter);
+const content = await getChapterContents(book, chapter);
 ---
 
-<Layout title={`napkin solutions > ${getChapterName(chapter)}`}>
+<Layout title={`napkin solutions > ${book} > Ch. ${chapter}`}>
   <div id="top"/>
-  <a href="..">Back to Chapter Selection</a>
+  <a href="../..">Back to Chapter Selection</a>
   <h2>Table of Contents</h2>
   <ol>
     {
@@ -42,7 +44,7 @@ const content = await getChapterContents(chapter);
           width: 210mm + 5em,
           height: auto,
         )
-        ${body}  
+        ${body}
       `}/>
     ))
   }
