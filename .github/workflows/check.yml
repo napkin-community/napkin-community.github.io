@@ -17,7 +17,7 @@ jobs:
       # setup typst
       - uses: typst-community/setup-typst@v5
         with:
-          typst-version: ^0.15.0
+          typst-versions-file: typst/typst-toolchain.toml
 
       # setup typstyle
       - id: cache-typstyle

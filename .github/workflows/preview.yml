@@ -34,7 +34,7 @@ jobs:
       - if: steps.find-typ.outputs.skip == 'false'
         uses: typst-community/setup-typst@v5
         with:
-          typst-version: ^0.15.0
+          typst-versions-file: typst/typst-toolchain.toml
 
       # Setup fonts
       - if: steps.find-typ.outputs.skip == 'false'
