@@ -31,8 +31,8 @@ jobs:
       - id: cache-fonts
         uses: actions/cache@v6
         with:
-          path: fonts
-          key: ${{ runner.os }}-fonts-1
+          path: typst/fonts
+          key: ${{ runner.os }}-fonts-2
 
       # setup node & pnpm
       - uses: pnpm/action-setup@v6
@@ -49,7 +49,7 @@ jobs:
 
       # build
       - run: |
-          ./x prepare-fonts
+          typst/x prepare-fonts
 
           cd www
           pnpm i

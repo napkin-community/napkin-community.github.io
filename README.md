@@ -21,16 +21,16 @@ This project uses the following fonts.
 - [Latin Modern Sans] for `#blue_box`.
 - [Hakgyoansim Bareonbatang] for Korean.
 
-See the `./x` helper for registering a new contributor or capturing a rendered
-solution as an image:
+See the `typst/x` helper for registering a new contributor or capturing a
+rendered solution as an image:
 
 ```console
-$ ./x
-./x - Napkin Utilities
+$ typst/x
+typst/x - Napkin Utilities
 
 Usage:
-  ./x [<command>] [<args>]
-  ./x [-h | --help]
+  typst/x [<command>] [<args>]
+  typst/x [-h | --help]
 
   register <github-handle>      Fetch GitHub profile from handle and download
                                 the profile to register it to users
@@ -44,12 +44,12 @@ When editing the template styles, keep a live preview of the template API docs
 open to see your changes as you go:
 
 ```bash
-./x prepare-fonts
-typst compile --font-path fonts lib/napkin-docs.{typ,pdf}
-# See lib/napkin-docs.pdf
+typst/x prepare-fonts
+typst compile --font-path typst/fonts typst/lib/napkin-docs.{typ,pdf}
+# See typst/lib/napkin-docs.pdf
 
 # Watch mode
-typst watch --font-path fonts lib/napkin-docs.{typ,pdf}
+typst watch --font-path typst/fonts typst/lib/napkin-docs.{typ,pdf}
 ```
 
 &nbsp;

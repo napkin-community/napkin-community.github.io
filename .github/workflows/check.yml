@@ -36,12 +36,12 @@ jobs:
       - id: cache-fonts
         uses: actions/cache@v6
         with:
-          path: fonts
-          key: ${{ runner.os }}-fonts-1
+          path: typst/fonts
+          key: ${{ runner.os }}-fonts-2
 
       # check
       - env:
-          TYPST_FONT_PATHS: ./fonts
+          TYPST_FONT_PATHS: typst/fonts
         run: |
-          ./x prepare-fonts
-          ./x check
+          typst/x prepare-fonts
+          typst/x check

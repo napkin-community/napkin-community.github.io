@@ -23,11 +23,11 @@ The napkin-community/solutions project includes packages written by third
 parties. The following third party packages are included, and carry their own
 copyright notices and license terms:
 
-* The file lib/assets/chili.png and the problem statements in each solution are
-  directly taken from the book "An Infinitely Large Napkin"
+* The file typst/lib/assets/chili.png and the problem statements in each
+  solution are directly taken from the book "An Infinitely Large Napkin"
   <https://github.com/vEnhance/napkin> which is licensed under GPL-3.0.
 
-* The file lib/assets/love-proper-isomorphic-subgroup.jpg is taken from
+* The file typst/lib/assets/love-proper-isomorphic-subgroup.jpg is taken from
   "Topological Girl's Generation"
   <https://topologicalgirlsgeneration.tumblr.com/> (dead link). All rights
   remain with the original author.

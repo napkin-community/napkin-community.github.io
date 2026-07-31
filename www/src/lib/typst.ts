@@ -10,8 +10,8 @@ let compilerIns: NodeCompiler | undefined;
 
 function initCompiler(): NodeCompiler {
   return NodeCompiler.create({
-    workspace: '../',
-    fontArgs: [{ fontPaths: ['../fonts'] }],
+    workspace: '../typst',
+    fontArgs: [{ fontPaths: ['../typst/fonts'] }],
   });
 }
 

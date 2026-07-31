@@ -41,16 +41,16 @@ jobs:
         id: cache-fonts
         uses: actions/cache@v6
         with:
-          path: fonts
-          key: ${{ runner.os }}-fonts-1
+          path: typst/fonts
+          key: ${{ runner.os }}-fonts-2
 
       - if: steps.find-typ.outputs.skip == 'false'
-        run: ./x prepare-fonts
+        run: typst/x prepare-fonts
 
       # Compile to PNG
       - if: steps.find-typ.outputs.skip == 'false'
         env:
-          TYPST_FONT_PATHS: ./fonts
+          TYPST_FONT_PATHS: ./typst/fonts
         run: |
           file="${{ steps.find-typ.outputs.file }}"
           tmp=$(mktemp)
