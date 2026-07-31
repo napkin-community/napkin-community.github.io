@@ -4,26 +4,33 @@ import { books, getChapters, getChapterContents } from '../lib/chapter';
 import type { Book } from '../lib/chapter';
 
 // Accent colors come from the box palette in template/napkin.typ
-const bookInfo: Record<Book, { title: string; author: string; accent: string }> = {
+const bookInfo: Record<
+  Book,
+  { title: string; author: string; accent: string; pdf: string }
+> = {
   Napkin: {
     title: 'An Infinitely Large Napkin',
     author: 'Evan Chen',
     accent: '#006896',
+    pdf: 'https://venhance.github.io/napkin/Napkin.pdf',
   },
   Le14: {
     title: 'Basic Category Theory',
     author: 'Tom Leinster',
     accent: '#008000',
+    pdf: 'https://arxiv.org/pdf/1612.09375',
   },
   Hatcher: {
     title: 'Algebraic Topology',
     author: 'Allen Hatcher',
     accent: '#9e3c0e',
+    pdf: 'https://pi.math.cornell.edu/~hatcher/AT/AT.pdf',
   },
   HoTT: {
     title: 'Homotopy Type Theory',
     author: 'The Univalent Foundations Program',
     accent: '#450e9e',
+    pdf: 'https://hott.github.io/book/hott-online.pdf',
   },
 };
 
@@ -53,7 +60,9 @@ const bookChapters = await Promise.all(
     bookChapters.map(({ book, chapters }) => (
       <section class="book" style={`--book-accent: ${bookInfo[book].accent}`}>
         <header>
-          <h2 id={book}>{bookInfo[book].title}</h2>
+          <h2 id={book}>
+            <a href={bookInfo[book].pdf}>{bookInfo[book].title}</a>
+          </h2>
           <p class="book-meta">
             {bookInfo[book].author} · {chapters.length}{' '}
             {chapters.length === 1 ? 'chapter' : 'chapters'}
@@ -117,6 +126,14 @@ const bookChapters = await Promise.all(
     margin-right: 0.55rem;
     border-radius: 0.15em;
     background: var(--book-accent-ui);
+  }
+  .book > header h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .book > header h2 a:hover {
+    color: var(--book-accent-ui);
+    text-decoration: underline;
   }
   .book-meta {
     margin: 0.25rem 0 0;
