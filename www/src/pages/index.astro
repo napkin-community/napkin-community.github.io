@@ -1,22 +1,74 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { books, getChapters } from '../lib/chapter';
+import { books, getChapters, getChapterContents } from '../lib/chapter';
+import type { Book } from '../lib/chapter';
+
+// Accent colors come from the box palette in template/napkin.typ
+const bookInfo: Record<Book, { title: string; author: string; accent: string }> = {
+  Napkin: {
+    title: 'An Infinitely Large Napkin',
+    author: 'Evan Chen',
+    accent: '#006896',
+  },
+  Le14: {
+    title: 'Basic Category Theory',
+    author: 'Tom Leinster',
+    accent: '#008000',
+  },
+  Hatcher: {
+    title: 'Algebraic Topology',
+    author: 'Allen Hatcher',
+    accent: '#9e3c0e',
+  },
+  HoTT: {
+    title: 'Homotopy Type Theory',
+    author: 'The Univalent Foundations Program',
+    accent: '#450e9e',
+  },
+};
 
 const bookChapters = await Promise.all(
-  books.map(async (book) => ({ book, chapters: await getChapters(book) })),
+  books.map(async (book) => ({
+    book,
+    chapters: await Promise.all(
+      (await getChapters(book)).map(async (chapter) => ({
+        chapter,
+        count: (await getChapterContents(book, chapter)).length,
+      })),
+    ),
+  })),
 );
 ---
 
-<Layout title="napkin solutions">
-  <p>Source code: <a href="https://github.com/napkin-community/napkin-community.github.io">https://github.com/napkin-community/napkin-community.github.io</a></p>
+<Layout title="Napkin Solutions">
+  <section class="hero">
+    <h1>Napkin Solutions</h1>
+    <p>
+      Community-written solutions to&nbsp;<a href="https://web.evanchen.cc/napkin.html"
+        ><em>An Infinitely Large Napkin</em></a
+      >&nbsp;and other mathematics textbooks, typeset in Typst.
+    </p>
+  </section>
   {
     bookChapters.map(({ book, chapters }) => (
-      <section>
-        <h2 id={book}>{book}</h2>
+      <section class="book" style={`--book-accent: ${bookInfo[book].accent}`}>
+        <header>
+          <h2 id={book}>{bookInfo[book].title}</h2>
+          <p class="book-meta">
+            {bookInfo[book].author} · {chapters.length}{' '}
+            {chapters.length === 1 ? 'chapter' : 'chapters'}
+          </p>
+        </header>
         <ol>
-          {chapters.map((chapter) => (
+          {chapters.map(({ chapter, count }) => (
             <li>
-              <a href={`./${book}/${chapter}/`}>Ch. {chapter}</a>
+              <a href={`./${book}/${chapter}/`}>
+                <span class="label">Chapter</span>
+                <span class="num">{chapter}</span>
+                <span class="count">
+                  {count} {count === 1 ? 'solution' : 'solutions'}
+                </span>
+              </a>
             </li>
           ))}
         </ol>
@@ -26,26 +78,98 @@ const bookChapters = await Promise.all(
 </Layout>
 
 <style>
+  .hero {
+    padding: 3.5rem 0 2.5rem;
+    max-width: 42rem;
+  }
+  .hero h1 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 6vw, 3.4rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .hero p {
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+  }
+
+  .book {
+    margin-top: 2.5rem;
+    --book-accent-ui: var(--book-accent);
+  }
+  @media (prefers-color-scheme: dark) {
+    .book {
+      --book-accent-ui: color-mix(in srgb, var(--book-accent) 55%, #fff);
+    }
+  }
+  .book > header h2 {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 1.55rem;
+  }
+  .book > header h2::before {
+    content: '';
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    margin-right: 0.55rem;
+    border-radius: 0.15em;
+    background: var(--book-accent-ui);
+  }
+  .book-meta {
+    margin: 0.25rem 0 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
   ol {
     display: grid;
-    padding: 2rem;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    margin: 1.25rem 0 0;
+    padding: 0;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
     list-style: none;
   }
-  li {
-    aspect-ratio: 3 / 4;
-    border: 2px solid black;
-    border-radius: 0.25rem;
-
-    display: grid;
-  }
   li > a {
-    display: grid;
-    padding: 1rem;
-    place-items: end;
+    aspect-ratio: 3 / 4;
+    padding: 0.9rem 1rem;
 
-    font-size: 1.5rem;
-    color: unset;
+    display: flex;
+    flex-direction: column;
+
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+  li > a:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .num {
+    margin-top: 0.1rem;
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    line-height: 1.1;
+    color: var(--book-accent-ui);
+  }
+  .count {
+    margin-top: auto;
+    font-size: 0.82rem;
+    color: var(--muted);
   }
 </style>

@@ -21,44 +21,196 @@ const chapter = Number(Astro.params.chapter);
 const content = await getChapterContents(book, chapter);
 ---
 
-<Layout title={`napkin solutions > ${book} > Ch. ${chapter}`}>
-  <div id="top"/>
-  <a href="../..">Back to Chapter Selection</a>
-  <h2>Table of Contents</h2>
-  <ol>
+<Layout title={`Chapter ${chapter} · ${book} — Napkin Solutions`}>
+  <div id="top"></div>
+  <div class="chapter-page">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="../..">Home</a>
+      <span aria-hidden="true">›</span>
+      <a href={`../../#${book}`}>{book}</a>
+      <span aria-hidden="true">›</span>
+      <span aria-current="page">Chapter {chapter}</span>
+    </nav>
+    <header class="chapter-head">
+      <p class="eyebrow">{book}</p>
+      <h1>Chapter {chapter}</h1>
+    </header>
+    <nav class="toc" aria-label="Solutions in this chapter">
+      <h2>Solutions</h2>
+      <ol>
+        {
+          content.map(({ id, display }) => (
+            <li>
+              <a href={`#${id}`}>{display}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
     {
-      content.map(({ id, display }) => (
-        <li>
-          <a href={`#${id}`}>{display}</a>
-        </li>
+      content.map(({ id, display, body }) => (
+        <article class="sheet">
+          <h2 id={id}>
+            {display}
+            <a class="anchor" href={`#${id}`} aria-label={`Permalink to ${display}`}>
+              #
+            </a>
+          </h2>
+          <Typst
+            name={`${book} ${display}`}
+            code={`
+              #set page(
+                margin: (left: 5em, right: 5em, top: 0em, bottom: 0em),
+                // A4 width 210mm + 5em margin left because of chili
+                width: 210mm + 5em,
+                height: auto,
+              )
+              ${body}
+            `}
+          />
+        </article>
       ))
     }
-  </ol>
-  {
-    content.map(({ id, display, body }) => (
-      <h2 id={id}>{display}  <a class="anchor" href={`#${id}`}>#</a></h2>
-      <Typst name={`${book} ${display}`} code={`
-        #set page(
-          margin: (left: 5em, right: 5em, top: 0em, bottom: 0em),
-          // A4 width 210mm + 5em margin left because of chili
-          width: 210mm + 5em,
-          height: auto,
-        )
-        ${body}
-      `}/>
-    ))
-  }
+  </div>
 </Layout>
 
 <style>
-  ol {
+  .chapter-page {
+    max-width: 62rem;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .breadcrumb a:hover {
+    color: var(--accent);
+  }
+  .breadcrumb [aria-current] {
+    color: var(--ink);
+  }
+
+  .chapter-head {
+    padding: 1.75rem 0 0.5rem;
+  }
+  .eyebrow {
+    margin: 0;
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .chapter-head h1 {
+    margin: 0.15rem 0 0;
+    font-family: var(--serif);
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    line-height: 1.15;
+  }
+
+  .toc {
+    margin-top: 1.25rem;
+    padding: 1.1rem 1.35rem;
+
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .toc h2 {
+    margin: 0 0 0.7rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .toc ol {
+    margin: 0;
+    padding: 0;
     list-style: none;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  :global(svg) {
-    max-width: 80em;
+  .toc a {
+    display: inline-block;
+    padding: 0.25rem 0.8rem;
+
+    border: 1px solid var(--line);
+    border-radius: 999px;
+
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
   }
-  a.anchor {
-    vertical-align: super;
-    font-size: 0.75em;
+  .toc a:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  /* Solution sheets are always white paper, since the Typst SVGs assume a
+     light background — their ink colors are fixed on purpose. */
+  .sheet {
+    margin-top: 2rem;
+    overflow: hidden;
+
+    background: var(--sheet);
+    border: 1px solid var(--sheet-line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+  }
+  .sheet h2 {
+    margin: 0;
+    padding: 1.05rem 1.5rem;
+
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+
+    border-bottom: 1px solid var(--sheet-line);
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--sheet-ink);
+  }
+  .anchor {
+    color: #006896;
+    text-decoration: none;
+    opacity: 0.35;
+    transition: opacity 0.15s ease;
+  }
+  .sheet h2:hover .anchor,
+  .anchor:focus-visible {
+    opacity: 1;
+  }
+  .sheet > :global(div) {
+    overflow-x: auto;
+  }
+  .sheet :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 1.25rem 0 1.5rem;
+  }
+  /* Below this width a fully scaled-down page becomes illegible, so keep the
+     math at a readable size and let the sheet pan horizontally instead. */
+  @media (max-width: 640px) {
+    .sheet :global(svg) {
+      min-width: 40rem;
+    }
   }
 </style>
