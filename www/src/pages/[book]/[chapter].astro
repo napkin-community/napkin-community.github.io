@@ -37,7 +37,7 @@ const content = await getChapterContents(book, chapter);
   {
     content.map(({ id, display, body }) => (
       <h2 id={id}>{display}  <a class="anchor" href={`#${id}`}>#</a></h2>
-      <Typst code={`
+      <Typst name={`${book} ${display}`} code={`
         #set page(
           margin: (left: 5em, right: 5em, top: 0em, bottom: 0em),
           // A4 width 210mm + 5em margin left because of chili

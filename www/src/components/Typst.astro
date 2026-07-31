@@ -3,9 +3,10 @@ import { renderToSVGString } from '../lib/typst';
 
 export interface Props {
   code: string;
+  name?: string;
 }
 
-const renderred = await renderToSVGString(Astro.props.code);
+const renderred = await renderToSVGString(Astro.props.code, Astro.props.name);
 ---
 
 <div set:html={renderred.svg} />

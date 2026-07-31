@@ -38,11 +38,12 @@ export async function readMetadata(source: string) {
 
 /**
  * @param source The source code of the .typ file.
+ * @param name Display name included in compile error messages.
  * @returns The SVG string.
  */
-export async function renderToSVGString(source: string) {
+export async function renderToSVGString(source: string, name?: string) {
   const $typst = getOrInitCompiler();
-  const svg = await renderToSVGString_($typst, { mainFileContent: source });
+  const svg = await renderToSVGString_($typst, { mainFileContent: source }, name);
   $typst.evictCache(60);
   let $ = load(svg, {
     xml: true,
@@ -58,11 +59,17 @@ export async function renderToSVGString(source: string) {
 async function renderToSVGString_(
   $typst: NodeCompiler,
   source: CompileDocArgs,
+  name?: string,
 ): Promise<string> {
   const docRes = $typst.compile(source);
   if (!docRes.result) {
-    docRes.printDiagnostics();
-    return '';
+    const diagnostics = docRes.takeDiagnostics()?.shortDiagnostics ?? [];
+    const details = diagnostics
+      .map(({ path, message }) => `${path}: ${message}`)
+      .join('\n');
+    throw new Error(
+      `Typst compilation failed${name ? ` (${name})` : ''}:\n${details}`,
+    );
   }
   const doc = docRes.result;
   const svg = $typst.svg(doc);
