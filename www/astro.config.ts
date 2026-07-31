@@ -1,6 +1,33 @@
-// @ts-check
+import type { AstroIntegration, ContentEntryType, HookParameters } from 'astro';
 import { defineConfig } from 'astro/config';
-import typst from './integration/typst';
+
+// Reference: https://github.com/withastro/astro/blob/c46210d8db9/packages/integrations/mdx/src/index.ts#L29-L53
+type SetupHookParams = HookParameters<'astro:config:setup'> & {
+  addContentEntryType: (contentEntryType: ContentEntryType) => void;
+};
+
+function typst(): AstroIntegration {
+  return {
+    name: 'astro-typst',
+    hooks: {
+      'astro:config:setup'(params) {
+        const { addContentEntryType } = params as SetupHookParams;
+        addContentEntryType({
+          extensions: ['.typ'],
+          getEntryInfo({ contents }) {
+            return {
+              data: {},
+              rawData: '',
+              body: contents,
+              // astro will fill this
+              slug: '',
+            };
+          },
+        });
+      },
+    },
+  };
+}
 
 export default defineConfig({
   // The site used to be deployed at https://napkin-community.github.io/solutions/
