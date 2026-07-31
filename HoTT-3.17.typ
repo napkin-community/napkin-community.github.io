@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "HoTT 3.17")[
   Show that the rules for the propositional truncation given in §3.7 are sufficient to

@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "HoTT 3.11")[
   Show that it is not the case that for all $A : cal(U)$ we have $||A|| -> A$. (However, there can be particular types for which $||A|| -> A$. Exercise 3.8 implies that `qinv`($f$) is such.)

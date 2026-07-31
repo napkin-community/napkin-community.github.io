@@ -23,6 +23,6 @@ The napkin-community/solutions project includes packages written by third
 parties. The following third party packages are included, and carry their own
 copyright notices and license terms:
 
-* The file template/chili.png and the problem statements in each solution are
+* The file lib/assets/chili.png and the problem statements in each solution are
   directly taken from the book "An Infinitely Large Napkin"
   <https://github.com/vEnhance/napkin> which is licensed under GPL-3.0.

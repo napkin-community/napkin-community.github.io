@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #brown_box(subtitle: [Non-examples of compact metric spaces])[Example 8.1.3][
   #enum(numbering: "(a)", start: 2)[

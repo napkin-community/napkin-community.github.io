@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "AT-2.1.18")[
   Show that for the subspace $ℚ ⊂ ℝ$, the relative homology group $H_1(ℝ, ℚ)$ is

@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "HoTT 3.14")[
   Show that assuming LEM, the double negation $not not A$ has the same recursion principle as the propositional truncation $||A||$ but with a propositional computation rule rather than a judgmental one. In other words, prove that assuming LEM, if $B$ is a mere proposition and we have $f : A -> B$, then there is an induced $g : not not A -> B$ such that $g(|a|) = f(a)$ for all $a : A$. Deduce that (assuming LEM) we have $not not A tilde.eq ||A||$. Thus, under LEM, the propositional truncation can be defined rather than taken as a separate type former.

@@ -60,12 +60,12 @@ case "${1}" in
     #
     # Download the avatar
     #
-    curl -o "users/${USERNAME}.avatar" -D "users/${USERNAME}.avatar.headers" "$(jq -r '.avatar_url' <<< "${PAYLOAD}")"
+    curl -o "lib/users/${USERNAME}.avatar" -D "lib/users/${USERNAME}.avatar.headers" "$(jq -r '.avatar_url' <<< "${PAYLOAD}")"
     # Extract the MIME
-    AVATAR_MIME=$(perl -ne 'print if s/content-type: image\/([a-z]*)\r$/\1/i' "users/${USERNAME}.avatar.headers")
-    rm "users/${USERNAME}.avatar.headers"
-    mv "users/${USERNAME}.avatar" "users/${USERNAME}.${AVATAR_MIME}"
-    echo "Downloaded 'users/${USERNAME}.${AVATAR_MIME}'"
+    AVATAR_MIME=$(perl -ne 'print if s/content-type: image\/([a-z]*)\r$/\1/i' "lib/users/${USERNAME}.avatar.headers")
+    rm "lib/users/${USERNAME}.avatar.headers"
+    mv "lib/users/${USERNAME}.avatar" "lib/users/${USERNAME}.${AVATAR_MIME}"
+    echo "Downloaded 'lib/users/${USERNAME}.${AVATAR_MIME}'"
 
     #
     # Save JSON
@@ -75,7 +75,7 @@ case "${1}" in
         login: .a.login,
         name: .a.name,
         avatar: {
-          path: "../users/\(.a.login).\(.b)",
+          path: "users/\(.a.login).\(.b)",
           format: .b
         },
         social: {
@@ -83,14 +83,14 @@ case "${1}" in
           twitter: (if .a.twitter_username == null then null else "https://twitter.com/\(.a.twitter_username)" end)
         }
       }
-    ' > "users/${USERNAME}.json"
-    echo "Downloaded 'users/${USERNAME}.json'"
+    ' > "lib/users/${USERNAME}.json"
+    echo "Downloaded 'lib/users/${USERNAME}.json'"
 
     #
-    # Update template/napkin-users.typ
+    # Update lib/napkin-users.typ
     #
-    ls users/*.json |
-      perl -ne 'print if s/^users\/([a-z]+)\.json$/\1/' |
+    ls lib/users/*.json |
+      perl -ne 'print if s/^lib\/users\/([a-z]+)\.json$/\1/' |
       sort |
       perl -e '
 use strict;
@@ -101,14 +101,14 @@ while (my $user = <STDIN>) {
   chomp $user;
   print <<"END";
   "$user": {
-    let metadata = json("../users/$user.json")
+    let metadata = json("users/$user.json")
     let avatar = read(metadata.avatar.path, encoding: none)
     (..metadata, avatar: (source: avatar, format: metadata.avatar.format))
   },\
 END
 }
 print ")\n";
-    ' > template/napkin-users.typ
+    ' > lib/napkin-users.typ
 
     echo -e "✅ \x1b[1;92mSuccessfully fetched '${USERNAME}'!\x1b[0m"
     exit 0;;

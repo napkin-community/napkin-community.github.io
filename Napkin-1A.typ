@@ -1,12 +1,12 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "Problem 1A")[
   What is the joke in the following figure? (Source: [#link(<img:snsd>)[#text(fill: color.rgb("339901"))[*Ge*]]].)
 ]
 
 #align(center)[
-  #image("assets/love-proper-isomorphic-subgroup.jpg", width: 40%)
+  #image("lib/assets/love-proper-isomorphic-subgroup.jpg", width: 40%)
 ]
 
 #solution(users.ranolp)[

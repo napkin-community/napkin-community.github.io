@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "Problem 64A")[
   Show that a space $X$ is Hausdorff if and only if the diagonal ${(x, x) | x in X}$ is closed in the product space $X times X$.

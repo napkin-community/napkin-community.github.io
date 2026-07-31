@@ -274,7 +274,7 @@
 /// ```, dir: ttb, scale-preview: 100%)
 ///
 /// #example(```
-/// #plain_box(title: [Problem 32B#dagger], subtitle: [Rouché's theorem])[
+/// #plain_box(title: [Problem 32B#daggered], subtitle: [Rouché's theorem])[
 ///   Let $f, g : U arrow bb(C)$ be holomorphic functions, where $U$ contains the unit disk.
 ///   Suppose that $|f(z)| > |g(z)|$ for all $z$ on the unit circle.
 ///   Prove that $f$ and $f + g$ have the same number of zeros
@@ -321,7 +321,7 @@
   count,
 ) = place(dx: -65pt, dy: 8pt, box(width: 60pt, align(right, stack(
   dir: rtl,
-  ..(image("chili.png", height: 15pt),) * count,
+  ..(image("assets/chili.png", height: 15pt),) * count,
 ))))
 
 /// Cite other.

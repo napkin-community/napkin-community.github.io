@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [#respect[Le14] 5.2.25])[
   A map $m: A -> B$ is #glossary[regular monic] if there exist an object $C$ and maps $B arrows C$ of which $m$ is an equalizer.

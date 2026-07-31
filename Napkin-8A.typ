@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [Problem 8A])[
   Show that the closed interval $[0, 1]$ and open interval $(0, 1)$ are not homeomorphic.

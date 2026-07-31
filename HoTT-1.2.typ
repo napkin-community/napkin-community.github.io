@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [HoTT-1.2])[
   Derive the recursion principle for products $"rec"_(A times B)$ using only the projections, and verify that the definitional equalities are valid. Do the same for $Sigma$-types.

@@ -1,7 +1,7 @@
 #set page(height: auto)
 
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #chili(1)
 #plain_box(

@@ -1,4 +1,4 @@
-#import "template/napkin.typ": *
+#import "lib/napkin.typ": *
 
 #black_note("Definition 8.3.1")[
   An open cover of a topological space $X$ is a collection of open sets ${U_alpha}$ (possibly infinite or uncountable)

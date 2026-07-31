@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [Problem 67B#daggered])[
   What is the coproduct $X + Y$ in the categories $sans("Set")$, $sans("Vect")_k$, and a poset?

@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #black_note[Exercise 67.5.7][
   Show that in $bold("Set")$, $bold("Grp")$, $bold("Ab")$, $bold("Vect")_k$, $bold("Top")$, the notions of epic and surjective

@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 #import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 #let fib = math.sans("fib")

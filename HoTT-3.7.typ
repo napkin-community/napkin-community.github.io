@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "HoTT 3.7")[
   More generally, show that if $A$ and $B$ are mere propositions and $not(A times B)$, then

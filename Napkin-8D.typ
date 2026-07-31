@@ -1,4 +1,4 @@
-#import "template/napkin.typ": *
+#import "lib/napkin.typ": *
 
 #plain_box(title: [Problem 8D])[
   redacted

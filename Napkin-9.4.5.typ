@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #blue_box(subtitle: [Maximality and minimality of bases])[Theorem 9.4.5][
   Let $V$ be a vector space over some field $k$ and take $e_1, ..., e_n in V$. The following are equivalent:

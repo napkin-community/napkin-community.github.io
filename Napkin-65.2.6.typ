@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 #import "@preview/cetz:0.3.4"
 
 #black_note[Exercise 65.2.6][

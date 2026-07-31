@@ -1,4 +1,4 @@
-#import "template/napkin.typ": *
+#import "lib/napkin.typ": *
 
 #black_note[Question 8.4.3][
   Give another proof using sequential definitions of continuity and compactness. (This is even easier.)

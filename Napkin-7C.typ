@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [Problem 7C], subtitle: [Hausdorff implies $T_1$ axiom])[
   Let $X$ be a Hausdorff topological space. Prove that for any point $p in X$ the set ${p}$ is closed.

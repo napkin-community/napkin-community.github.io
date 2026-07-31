@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [Problem 10G], subtitle: [Differentiation of functions])[
   Let $V$ be the infinite-dimensional real vector space of all infinitely differentiable functions $RR -> RR$.

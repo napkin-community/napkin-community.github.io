@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [Problem 7E])[
   Let $X$ be a topological space. The _connected component_ of a point $p in X$ is the union of all subspaces $S subset.eq X$ which are connected and contain $p$.

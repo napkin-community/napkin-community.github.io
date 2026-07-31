@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: [Le14 5.3.11])[
   It was shown in Example 5.3.4 that the forgetful functor $U: bold("Grp") -> bold("Set")$ creates binary products.

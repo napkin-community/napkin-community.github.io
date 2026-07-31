@@ -1,4 +1,4 @@
-#import "template/napkin.typ": *
+#import "lib/napkin.typ": *
 
 #plain_box(title: [Exercise 66.1.3 (On requiring surjectivity of $p$)])[
   Let $p : E -> B$ be satisfying this definition, except that $p$ need not be surjective.

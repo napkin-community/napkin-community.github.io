@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #plain_box(title: "AT-2.1.24")[
   Show that each $n$-simplex in the barycentric subdivision $Δ^n$ is defined by

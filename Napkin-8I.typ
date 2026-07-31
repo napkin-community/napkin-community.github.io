@@ -1,4 +1,4 @@
-#import "template/napkin.typ": *
+#import "lib/napkin.typ": *
 
 #plain_box(title: [Problem 8I])[
   In this problem a "circle" refers to the boundary of a disk with _nonzero_ radius.

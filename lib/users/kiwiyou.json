@@ -2,7 +2,7 @@
   "login": "kiwiyou",
   "name": "kiwiyou",
   "avatar": {
-    "path": "../users/kiwiyou.jpeg",
+    "path": "users/kiwiyou.jpeg",
     "format": "jpg"
   },
   "social": {

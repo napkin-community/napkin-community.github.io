@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 #import "@preview/fletcher:0.5.7" as fletcher: diagram, node
 #let edge = fletcher.edge.with(marks: "-|>")
 

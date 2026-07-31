@@ -1,5 +1,5 @@
-#import "template/napkin.typ": *
-#import "template/napkin-users.typ": *
+#import "lib/napkin.typ": *
+#import "lib/napkin-users.typ": *
 
 #chili(2)#plain_box(title: [Problem 65C], subtitle: [RMM 2013])[
   Let $n ≥ 2$ be a positive integer. A stone is placed at
