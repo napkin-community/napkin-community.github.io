@@ -1,0 +1,42 @@
+---
+import { Code } from 'astro:components';
+
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+---
+
+<div class="lean">
+  <p class="lean-label">Lean</p>
+  <Code code={code} lang="lean" theme="github-light" />
+</div>
+
+<style>
+  .lean {
+    padding: 1.1rem 1.5rem 1.4rem;
+  }
+  /* The sheet stays white in both color schemes, so the label color is
+     derived from the sheet palette instead of the theme-flipping tokens. */
+  .lean-label {
+    margin: 0 0 0.7rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--sheet-ink) 65%, var(--sheet));
+  }
+  .lean :global(pre.astro-code) {
+    margin: 0;
+    padding: 1rem 1.25rem;
+    overflow-x: auto;
+
+    border: 1px solid var(--sheet-line);
+    border-radius: calc(var(--radius) / 2);
+
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    tab-size: 2;
+  }
+</style>

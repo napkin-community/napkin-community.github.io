@@ -4,6 +4,7 @@ import { books, getChapters, getChapterContents } from '../../lib/chapter';
 import type { Book } from '../../lib/chapter';
 import Layout from '../../layouts/Layout.astro';
 import Typst from '../../components/Typst.astro';
+import LeanCode from '../../components/LeanCode.astro';
 
 export const getStaticPaths = (async () =>
   (
@@ -48,7 +49,7 @@ const content = await getChapterContents(book, chapter);
       </ol>
     </nav>
     {
-      content.map(({ id, display, body }) => (
+      content.map(({ id, display, typstBody, leanCode }) => (
         <article class="sheet">
           <h2 id={id}>
             {display}
@@ -56,18 +57,21 @@ const content = await getChapterContents(book, chapter);
               #
             </a>
           </h2>
-          <Typst
-            name={`${book} ${display}`}
-            code={`
-              #set page(
-                margin: (left: 5em, right: 5em, top: 0em, bottom: 0em),
-                // A4 width 210mm + 5em margin left because of chili
-                width: 210mm + 5em,
-                height: auto,
-              )
-              ${body}
-            `}
-          />
+          {typstBody !== undefined && (
+            <Typst
+              name={`${book} ${display}`}
+              code={`
+                #set page(
+                  margin: (left: 5em, right: 5em, top: 0em, bottom: 0em),
+                  // A4 width 210mm + 5em margin left because of chili
+                  width: 210mm + 5em,
+                  height: auto,
+                )
+                ${typstBody}
+              `}
+            />
+          )}
+          {leanCode !== undefined && <LeanCode code={leanCode} />}
         </article>
       ))
     }

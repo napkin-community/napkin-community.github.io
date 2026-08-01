@@ -6,14 +6,14 @@ type SetupHookParams = HookParameters<'astro:config:setup'> & {
   addContentEntryType: (contentEntryType: ContentEntryType) => void;
 };
 
-function typst(): AstroIntegration {
+function rawText(): AstroIntegration {
   return {
-    name: 'astro-typst',
+    name: 'astro-raw-text',
     hooks: {
       'astro:config:setup'(params) {
         const { addContentEntryType } = params as SetupHookParams;
         addContentEntryType({
-          extensions: ['.typ'],
+          extensions: ['.typ', '.lean'],
           getEntryInfo({ contents }) {
             return {
               data: {},
@@ -52,7 +52,7 @@ export default defineConfig({
     '/solutions/Hatcher': '/#Hatcher',
     '/solutions/HoTT': '/#HoTT',
   },
-  integrations: [typst()],
+  integrations: [rawText()],
   vite: {
     ssr: {
       external: ['@myriaddreamin/typst-ts-node-compiler'],

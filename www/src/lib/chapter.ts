@@ -2,9 +2,17 @@ import { getCollection } from 'astro:content';
 import path from 'node:path';
 import { readMetadata } from './typst';
 import { naturalCompare } from './numberCompare';
+import { parseLeanModule, leanChapterPattern } from './lean';
 
 export const books = ['Napkin', 'Le14', 'Hatcher', 'HoTT'] as const;
 export type Book = (typeof books)[number];
+
+export interface ChapterItem {
+  id: string;
+  display: string;
+  typstBody?: string;
+  leanCode?: string;
+}
 
 const collectionOf = {
   Le14: 'le14',
@@ -30,6 +38,9 @@ export async function getChapters(book: Book) {
           ...(await getCollection('aFewHarderProblems')).map(({ filePath }) =>
             chapterOf(problemPattern, filePath!),
           ),
+          ...(await getCollection('leanProofs')).map(({ filePath }) =>
+            chapterOf(leanChapterPattern, filePath!),
+          ),
         ]
       : (await getCollection(collectionOf[book])).map(({ filePath }) =>
           chapterOf(exercisePattern(book), filePath!),
@@ -38,7 +49,10 @@ export async function getChapters(book: Book) {
   return [...new Set(chapters)].toSorted((a, b) => a - b);
 }
 
-export async function getChapterContents(book: Book, chapter: number) {
+export async function getChapterContents(
+  book: Book,
+  chapter: number,
+): Promise<ChapterItem[]> {
   if (book !== 'Napkin') {
     const contents = await getCollection(collectionOf[book]);
     return contents
@@ -47,7 +61,6 @@ export async function getChapterContents(book: Book, chapter: number) {
           chapterOf(exercisePattern(book), filePath!) === chapter,
       )
       .map((content) => ({
-        ...content,
         id: path
           .parse(content.filePath!)
           .name.replace(new RegExp(`^${book}-`), '')
@@ -55,49 +68,72 @@ export async function getChapterContents(book: Book, chapter: number) {
         display: path
           .parse(content.filePath!)
           .name.replace(new RegExp(`^${book}-`), ''),
+        typstBody: content.body!,
       }))
       .toSorted(({ id: a }, { id: b }) => naturalCompare(a, b));
   }
 
   const exercises = await getCollection('exercises');
   const aFewHarderProblems = await getCollection('aFewHarderProblems');
+  const leanProofs = await getCollection('leanProofs');
 
-  const exercisesOrdered = (
-    await Promise.all(
-      exercises.map(async (content) => ({
-        ...content,
-        metadata: await readMetadata(content.body!),
-      })),
-    )
-  )
-    .filter(
-      ({ filePath, metadata }) =>
-        chapterOf(exercisePattern('Napkin'), filePath!) === chapter &&
-        !metadata.skipFromBuild,
-    )
-    .toSorted(({ filePath: a }, { filePath: b }) => naturalCompare(a!, b!));
-  const problemsOrdered = aFewHarderProblems
-    .filter(({ filePath }) => chapterOf(problemPattern, filePath!) === chapter)
-    .toSorted(({ filePath: a }, { filePath: b }) => naturalCompare(a!, b!));
+  // Numbered exercises ('8.1.2') and lettered problems ('Problem 8A') are
+  // kept in separate groups; problems always come after the exercises.
+  const exerciseItems = new Map<string, ChapterItem>();
+  const problemItems = new Map<string, ChapterItem>();
 
+  for (const content of await Promise.all(
+    exercises.map(async (content) => ({
+      ...content,
+      metadata: await readMetadata(content.body!),
+    })),
+  )) {
+    if (
+      chapterOf(exercisePattern('Napkin'), content.filePath!) !== chapter ||
+      content.metadata.skipFromBuild
+    )
+      continue;
+    const name = path.parse(content.filePath!).name.replace(/^Napkin-/, '');
+    exerciseItems.set(name.replaceAll(/\./g, '-'), {
+      id: name.replaceAll(/\./g, '-'),
+      display: name,
+      typstBody: content.body!,
+    });
+  }
+
+  for (const content of aFewHarderProblems) {
+    if (chapterOf(problemPattern, content.filePath!) !== chapter) continue;
+    const name = path.parse(content.filePath!).name.replace(/^Napkin-/, '');
+    problemItems.set(`problem-${name.toLowerCase()}`, {
+      id: `problem-${name.toLowerCase()}`,
+      display: `Problem ${name}`,
+      typstBody: content.body!,
+    });
+  }
+
+  // Merge the Lean formalizations in: an item that also has a typst solution
+  // gets its Lean code (and the richer 'Example 1.1.1' label) attached, and
+  // Lean-only items become standalone entries.
+  const leanModule = leanProofs.find(
+    ({ filePath }) => chapterOf(leanChapterPattern, filePath!) === chapter,
+  );
+  for (const { id, display, code } of leanModule
+    ? parseLeanModule(leanModule.body!)
+    : []) {
+    const group = id.startsWith('problem-') ? problemItems : exerciseItems;
+    const existing = group.get(id);
+    if (existing) {
+      existing.display = display;
+      existing.leanCode = code;
+    } else {
+      group.set(id, { id, display, leanCode: code });
+    }
+  }
+
+  const byId = ({ id: a }: ChapterItem, { id: b }: ChapterItem) =>
+    naturalCompare(a, b);
   return [
-    ...exercisesOrdered.map((content) => ({
-      ...content,
-      id: path
-        .parse(content.filePath!)
-        .name.replace(/^Napkin-/, '')
-        .replaceAll(/\./g, '-'),
-      display: path.parse(content.filePath!).name.replace(/^Napkin-/, ''),
-    })),
-    ...problemsOrdered.map((content) => ({
-      ...content,
-      id: `problem-${path
-        .parse(content.filePath!)
-        .name.replace(/^Napkin-/, '')
-        .toLowerCase()}`,
-      display: `Problem ${path
-        .parse(content.filePath!)
-        .name.replace(/^Napkin-/, '')}`,
-    })),
+    ...[...exerciseItems.values()].toSorted(byId),
+    ...[...problemItems.values()].toSorted(byId),
   ];
 }

@@ -36,10 +36,18 @@ const hott = defineCollection({
   }),
 });
 
+const leanProofs = defineCollection({
+  loader: glob({
+    base: '../lean/NapkinProofs',
+    pattern: 'Chapter+([0-9]).lean',
+  }),
+});
+
 export const collections = {
   aFewHarderProblems,
   exercises,
   le14,
   hatcher,
   hott,
+  leanProofs,
 };
