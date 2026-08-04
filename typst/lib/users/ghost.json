@@ -1,0 +1,12 @@
+{
+  "login": "ghost",
+  "name": "Deleted user",
+  "avatar": {
+    "path": "users/ghost.jpeg",
+    "format": "jpg"
+  },
+  "social": {
+    "github": "https://github.com/ghost",
+    "twitter": null
+  }
+}

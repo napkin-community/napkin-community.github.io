@@ -4,6 +4,11 @@
     let avatar = read(metadata.avatar.path, encoding: none)
     (..metadata, avatar: (source: avatar, format: metadata.avatar.format))
   },
+  "ghost": {
+    let metadata = json("users/ghost.json")
+    let avatar = read(metadata.avatar.path, encoding: none)
+    (..metadata, avatar: (source: avatar, format: metadata.avatar.format))
+  },
   "kiwiyou": {
     let metadata = json("users/kiwiyou.json")
     let avatar = read(metadata.avatar.path, encoding: none)
