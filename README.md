@@ -4,61 +4,60 @@ This repository serves solutions for the problems from the book, [An Infinitely
 Large Napkin] by Evan Chen and contributors, along with Lean 4 formal proofs of
 the book.
 
-```bash
-# Edit solutions in the typst/ directory, preview them with:
+The goal of this project is to port all existing solutions from the
+<https://e.hyeon.me/napkin.svg> to Typst and formalize them in Lean.
 
+```bash
 cd www
 pnpm i
 pnpm dev
 ```
 
+&nbsp;
+
+Typst solutions
+--------
+The `typst/` directory contains Typst solutions of the book.
+
+```bash
+# Download fonts
+typst/x prepare-fonts
+
+# Check typst codes
+typst/x check
+typstyle --check typst
+
+# New contributor registration
+typst/x register <github-handle>
+
+# Help
+typst/x --help
+```
+
 Following tools are recommended for a better contribution experience:
 
+- [typstyle] - Typst code formatter
 - [Espanso] - Write mathematics symbols outside Typst.
-- [Typsi] - If you like typst-y symbol names, use this espanso package.
+- [RanolP/Typsi] - If you like typst-y symbol names, use this espanso package.
+
+When editing the template styles, keep a live preview of the template API docs
+open to see your changes as you go:
+
+```bash
+# Typst in watch mode, see typst/lib/napkin-docs.pdf
+typst watch --font-path typst/fonts typst/lib/napkin-docs.{typ,pdf}
+```
 
 This project uses the following fonts.
 
 - [Latin Modern Sans] for `#blue_box`.
 - [Hakgyoansim Bareonbatang] for Korean.
 
-See the `typst/x` helper for registering a new contributor or capturing a
-rendered solution as an image:
-
-```console
-$ typst/x
-typst/x - Napkin Utilities
-
-Usage:
-  typst/x [<command>] [<args>]
-  typst/x [-h | --help]
-
-  register <github-handle>      Fetch GitHub profile from handle and download
-                                the profile to register it to users
-  check                         Check whether the typst source file valid
-  prepare-fonts                 Prepare fonts for Typst
-  capture <filename.typ>        Capture the typst rendered using imagemagick
-  -h, --help                    Display this help message
-```
-
-When editing the template styles, keep a live preview of the template API docs
-open to see your changes as you go:
-
-```bash
-typst/x prepare-fonts
-typst compile --font-path typst/fonts typst/lib/napkin-docs.{typ,pdf}
-# See typst/lib/napkin-docs.pdf
-
-# Watch mode
-typst watch --font-path typst/fonts typst/lib/napkin-docs.{typ,pdf}
-```
+&nbsp;
 
 Lean proofs
 --------
 The `lean/` directory contains Lean 4 formal proofs of the book.
-
-> [!NOTE]
-> The proofs are still very incomplete.
 
 ```bash
 cd lean
@@ -123,8 +122,10 @@ This project is primarily distributed under the terms of the
 for details.
 
 [An Infinitely Large Napkin]: https://web.evanchen.cc/napkin.html
+[Napkin archive]: https://e.hyeon.me/napkin-archive.svg
+[typstyle]: https://typstyle-rs.github.io/typstyle/
 [Espanso]: https://espanso.org
-[Typsi]: https://github.com/RanolP/typsi
+[RanolP/Typsi]: https://github.com/RanolP/typsi
 [Latin Modern Sans]: https://www.gust.org.pl/projects/e-foundry/latin-modern
 [Hakgyoansim Bareonbatang]: https://copyright.keris.or.kr/wft/fntDwnldView?fntGrpId=GFT202301120000000000002
 [GNU Affero General Public License v3.0]: LICENSE
