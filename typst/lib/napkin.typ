@@ -373,4 +373,7 @@
   ],
 )
 
+/// Keep this file off the site. Only numbered Napkin exercises are checked.
+///
+/// -> content
 #let skip-from-build() = [ #metadata(true) <skip-from-build>]

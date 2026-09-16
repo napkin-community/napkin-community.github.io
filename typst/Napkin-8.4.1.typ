@@ -4,4 +4,5 @@
   Let $M$ be compact. Then $M$ is totally bounded.
 ]
 
+// Napkin-8F.typ includes this statement-only file under "References".
 #skip-from-build()
