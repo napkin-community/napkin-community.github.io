@@ -8,4 +8,5 @@
   $
 ]
 
+// Napkin-8C.typ includes this statement-only file under "References".
 #skip-from-build()
