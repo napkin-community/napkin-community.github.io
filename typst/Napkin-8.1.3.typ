@@ -35,7 +35,7 @@
 
   This is contradiction, so $X$ is not compact. #h(1fr) #sym.qed
 
-  #plain_box(title: [Definition 6.1.1])[
+  #plain_box(title: [Definition 8.1.2])[
     A metric space $M$ is #glossary[sequentially compact] if every sequence has a subsequence which converges.
   ]
 ]
