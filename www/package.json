@@ -5,6 +5,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "check:orphans": "node scripts/check-orphans.ts",
     "prepare": "../typst/x prepare-fonts"
   },
   "dependencies": {
@@ -15,6 +16,8 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^25.9.5",
+    "@types/picomatch": "^4.0.3",
+    "picomatch": "^4.0.5",
     "typescript": "^6.0.3"
   },
   "devEngines": {

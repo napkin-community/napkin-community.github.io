@@ -1,46 +1,29 @@
 import { glob } from 'astro/loaders';
 import { defineCollection } from 'astro:content';
+import { collectionPatterns } from './content.patterns';
 
 const aFewHarderProblems = defineCollection({
-  loader: glob({
-    base: '../typst',
-    pattern: 'Napkin-+([0-9])+([A-Z]).typ',
-  }),
+  loader: glob(collectionPatterns.aFewHarderProblems),
 });
 
 const exercises = defineCollection({
-  loader: glob({
-    base: '../typst',
-    pattern: 'Napkin-+([0-9]).+([.0-9]).typ',
-  }),
+  loader: glob(collectionPatterns.exercises),
 });
 
 const le14 = defineCollection({
-  loader: glob({
-    base: '../typst',
-    pattern: 'Le14-+([.0-9]).typ',
-  }),
+  loader: glob(collectionPatterns.le14),
 });
 
 const hatcher = defineCollection({
-  loader: glob({
-    base: '../typst',
-    pattern: 'Hatcher-+([.0-9]).typ',
-  }),
+  loader: glob(collectionPatterns.hatcher),
 });
 
 const hott = defineCollection({
-  loader: glob({
-    base: '../typst',
-    pattern: 'HoTT-+([.0-9]).typ',
-  }),
+  loader: glob(collectionPatterns.hott),
 });
 
 const leanProofs = defineCollection({
-  loader: glob({
-    base: '../lean/NapkinProofs',
-    pattern: 'Chapter+([0-9]).lean',
-  }),
+  loader: glob(collectionPatterns.leanProofs),
 });
 
 export const collections = {
